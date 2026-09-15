@@ -15,9 +15,3 @@ in GitHub durch den vollständigen Inhalt aus dieser V4 ersetzen.
 
 Für das Update müssen index.html, script.js, style.css, site.json und .pages.yml
 aus V4 verwendet werden. Die übrigen Dateien sind ebenfalls vollständig enthalten.
-
-V5 – BILDBIBLIOTHEK FIX
-- Pages CMS lädt Bilder zentral in /images hoch.
-- Bildfelder für Mobile Kneipe und Team greifen auf dieselbe Bildbibliothek zu.
-- Bestehende Website-Inhalte bleiben erhalten.
-- Leittext der Startseite aktualisiert.
