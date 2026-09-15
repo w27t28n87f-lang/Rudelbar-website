@@ -1,3 +1,70 @@
+let SITE = null;
+
+const getValue = (object, path) =>
+  path.split(".").reduce((value, key) => value?.[key], object);
+
+async function loadSite() {
+  const response = await fetch(`site.json?v=${Date.now()}`, { cache: "no-store" });
+  if (!response.ok) throw new Error("site.json konnte nicht geladen werden.");
+  SITE = await response.json();
+
+  document.querySelectorAll("[data-content]").forEach(element => {
+    const value = getValue(SITE, element.dataset.content);
+    if (value !== undefined && value !== null) element.textContent = value;
+  });
+
+  document.querySelectorAll("[data-section]").forEach(element => {
+    const visible = SITE.visibility?.[element.dataset.section] !== false;
+    element.hidden = !visible;
+  });
+
+  document.querySelectorAll("[data-section-link]").forEach(element => {
+    const visible = SITE.visibility?.[element.dataset.sectionLink] !== false;
+    element.hidden = !visible;
+  });
+
+  renderServices();
+  renderMobileImage();
+}
+
+function renderServices() {
+  const container = document.getElementById("serviceCards");
+  if (!container) return;
+  container.innerHTML = "";
+
+  (SITE.services?.items || []).forEach((item, index) => {
+    const article = document.createElement("article");
+    article.className = "card";
+
+    const number = document.createElement("span");
+    number.className = "card-number";
+    number.textContent = String(index + 1).padStart(2, "0");
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "";
+
+    const text = document.createElement("p");
+    text.textContent = item.text || "";
+
+    article.append(number, title, text);
+    container.appendChild(article);
+  });
+}
+
+function renderMobileImage() {
+  const visual = document.getElementById("mobileVisual");
+  const placeholder = document.getElementById("mobilePlaceholder");
+  const image = SITE.mobile?.image?.trim();
+
+  if (!visual || !image) return;
+
+  visual.style.backgroundImage =
+    `linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.18)), url("${image.replace(/"/g, '\\"')}")`;
+  visual.style.backgroundSize = "cover";
+  visual.style.backgroundPosition = "center";
+  if (placeholder) placeholder.textContent = SITE.mobile?.imageAlt || "";
+}
+
 const menuButton = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".main-nav");
 
@@ -15,20 +82,11 @@ document.querySelectorAll(".main-nav a").forEach(link => {
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
-const form = document.getElementById("eventForm");
-
-form?.addEventListener("submit", (event) => {
+document.getElementById("eventForm")?.addEventListener("submit", event => {
   event.preventDefault();
 
-  const data = new FormData(form);
+  const data = new FormData(event.currentTarget);
   const name = data.get("name") || "";
-  const telefon = data.get("telefon") || "-";
-  const email = data.get("email") || "";
-  const datum = data.get("datum") || "-";
-  const gaeste = data.get("gaeste") || "-";
-  const ort = data.get("ort") || "-";
-  const nachricht = data.get("nachricht") || "";
-
   const subject = encodeURIComponent(`Eventanfrage Rudelbar – ${name}`);
   const body = encodeURIComponent(
 `Moin Rudelbar,
@@ -36,24 +94,32 @@ form?.addEventListener("submit", (event) => {
 ich möchte ein Event anfragen.
 
 Name: ${name}
-E-Mail: ${email}
-Telefon: ${telefon}
-Datum: ${datum}
-Veranstaltungsort: ${ort}
-Gästezahl: ${gaeste}
+E-Mail: ${data.get("email") || ""}
+Telefon: ${data.get("telefon") || "-"}
+Datum: ${data.get("datum") || "-"}
+Veranstaltungsort: ${data.get("ort") || "-"}
+Gästezahl: ${data.get("gaeste") || "-"}
 
 Nachricht:
-${nachricht}
+${data.get("nachricht") || ""}
 
 Viele Grüße
 ${name}`
   );
 
-  /*
-    WICHTIG:
-    Vor Veröffentlichung hier eure echte Rudelbar-E-Mail-Adresse eintragen.
-  */
-  const rudelbarEmail = "DEINE-EMAIL@RUDELBAR.DE";
+  const rudelbarEmail = SITE?.brand?.email || "";
+  if (!rudelbarEmail || rudelbarEmail.includes("DEINE-EMAIL")) {
+    alert("Bitte zuerst die Rudelbar-E-Mail-Adresse in der Website-Verwaltung eintragen.");
+    return;
+  }
 
   window.location.href = `mailto:${rudelbarEmail}?subject=${subject}&body=${body}`;
+});
+
+loadSite().catch(error => {
+  console.error(error);
+  document.body.insertAdjacentHTML(
+    "afterbegin",
+    '<div style="position:fixed;z-index:9999;bottom:12px;left:12px;right:12px;padding:12px;background:#8b0000;color:white;text-align:center">Website-Inhalte konnten nicht geladen werden.</div>'
+  );
 });

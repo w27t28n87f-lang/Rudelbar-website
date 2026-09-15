@@ -1,0 +1,66 @@
+{
+  "brand": {
+    "slogan": "Gemeinsam. Überall. Rudelbar.",
+    "email": "DEINE-EMAIL@RUDELBAR.DE",
+    "phone": "",
+    "whatsapp": "",
+    "instagram": "",
+    "youtube": ""
+  },
+  "visibility": {
+    "mobileKneipe": true,
+    "mode": false,
+    "service": false,
+    "security": false
+  },
+  "hero": {
+    "eyebrow": "Die mobile Kneipe",
+    "headline1": "Gemeinsam.",
+    "headline2": "Überall.",
+    "headlineAccent": "Rudelbar.",
+    "text": "Wir bringen Kneipenfeeling direkt zu deinem Event. Mobil, unkompliziert und mit einem starken Rudel hinterm Tresen.",
+    "primaryButton": "Event anfragen",
+    "secondaryButton": "Mehr erfahren"
+  },
+  "mobile": {
+    "eyebrow": "Rudelbar unterwegs",
+    "headline": "Die Kneipe kommt zu dir.",
+    "lead": "Statt deine Gäste zur Kneipe zu schicken, bringen wir die Kneipe zu deinen Gästen. Die Rudelbar ist für Veranstaltungen gedacht, bei denen Ausschank, Atmosphäre und ein unkomplizierter Ablauf zusammengehören.",
+    "text": "Ob private Feier, Vereinsfest oder größere Veranstaltung: Wir stimmen den Einsatz passend zu deinem Event ab.",
+    "image": "",
+    "imageAlt": "Rudelbar Ausschankwagen oder Veranstaltung"
+  },
+  "services": {
+    "eyebrow": "Wo das Rudel auftaucht",
+    "headline": "Für kleine Feiern. Für große Abende.",
+    "items": [
+      {
+        "title": "Private Feiern",
+        "text": "Geburtstag, Jubiläum oder Gartenparty. Wir kümmern uns um den Ausschank."
+      },
+      {
+        "title": "Firmenfeiern",
+        "text": "Ein mobiler Ausschank für Sommerfest, Betriebsfeier und besondere Anlässe."
+      },
+      {
+        "title": "Vereine & Feste",
+        "text": "Vom Vereinsfest bis zum Schützenfest: flexibel geplant und passend zur Veranstaltung."
+      },
+      {
+        "title": "Veranstaltungen",
+        "text": "Du hast etwas Größeres vor? Schick uns die Eckdaten und wir besprechen den Rest."
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "Über uns",
+    "headline": "Mehr als nur ein Tresen.",
+    "lead": "Rudelbar steht für gemeinsames Anpacken, gute Veranstaltungen und eine mobile Kneipe, die nicht nach Schema F funktioniert.",
+    "text": "Unser Ziel ist simpel: Du kümmerst dich um deine Gäste und deinen Abend. Wir kümmern uns darum, dass hinter dem Tresen alles läuft."
+  },
+  "request": {
+    "eyebrow": "Event anfragen",
+    "headline": "Erzähl uns, was du vorhast.",
+    "text": "Ein paar Eckdaten reichen für den Anfang. Das Formular öffnet anschließend deine E-Mail-App mit der vorbereiteten Anfrage."
+  }
+}
