@@ -1,4 +1,7 @@
-RUDELBAR WEBSITE V1
+RUDELBAR WEBSITE V2
+
+Diese Version ist speziell für den einfachen Upload über GitHub auf dem iPhone aufgebaut.
+ALLE Dateien liegen direkt im Hauptverzeichnis. Es wird kein assets-Ordner benötigt.
 
 Dateien:
 - index.html
@@ -6,12 +9,11 @@ Dateien:
 - script.js
 - impressum.html
 - datenschutz.html
-- assets/logo-haupt.png
-- assets/wolf-hintergrund.png
+- logo-haupt.png
+- wolf-hintergrund.png
+- README.txt
 
 Vor Veröffentlichung:
-1. In script.js DEINE-EMAIL@RUDELBAR.DE durch die echte Kontaktadresse ersetzen.
-2. Impressum mit den tatsächlichen Pflichtangaben vervollständigen.
-3. Datenschutzerklärung an das tatsächliche Hosting und alle eingebundenen Dienste anpassen.
-
-Die Website ist responsive und kann als statische Website z.B. über GitHub Pages betrieben werden.
+1. In script.js DEINE-EMAIL@RUDELBAR.DE durch die echte Rudelbar-Kontaktadresse ersetzen.
+2. Impressum vervollständigen.
+3. Datenschutzerklärung an Domain, Hosting und tatsächlich eingesetzte Dienste anpassen.
