@@ -2,6 +2,22 @@ let SITE = null;
 
 const getValue = (object, path) =>
   path.split(".").reduce((value, key) => value?.[key], object);
+function normalizeMediaPath(value) {
+  if (!value || typeof value !== "string") return "";
+  let path = value.trim().replace(/\\/g, "/");
+  if (!path) return "";
+  if (/^(https?:|data:|blob:)/i.test(path)) return path;
+
+  path = path.replace(/^\.\//, "");
+  path = path.replace(/^\/Rudelbar-website\//i, "");
+  path = path.replace(/^\/+/, "");
+
+  if (path.startsWith("images/")) return path;
+
+  const filename = path.split("/").pop();
+  return filename ? `images/${filename}` : "";
+}
+
 
 async function loadSite() {
   const response = await fetch(`site.json?v=${Date.now()}`, { cache: "no-store" });
@@ -66,7 +82,7 @@ function renderTeam() {
 
     if (member.image) {
       const img = document.createElement("img");
-      img.src = member.image;
+      img.src = normalizeMediaPath(member.image);
       img.alt = member.name ? `Foto von ${member.name}` : "Rudelbar Teammitglied";
       img.loading = "lazy";
       media.appendChild(img);
@@ -100,7 +116,7 @@ function renderTeam() {
 function renderMobileImage() {
   const visual = document.getElementById("mobileVisual");
   const placeholder = document.getElementById("mobilePlaceholder");
-  const image = SITE.mobile?.image?.trim();
+  const image = normalizeMediaPath(SITE.mobile?.image);
 
   if (!visual || !image) return;
 
