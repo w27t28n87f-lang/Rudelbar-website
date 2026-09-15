@@ -11,7 +11,8 @@
     "mobileKneipe": true,
     "mode": false,
     "service": false,
-    "security": false
+    "security": false,
+    "team": true
   },
   "hero": {
     "eyebrow": "Die mobile Kneipe",
@@ -62,5 +63,18 @@
     "eyebrow": "Event anfragen",
     "headline": "Erzähl uns, was du vorhast.",
     "text": "Ein paar Eckdaten reichen für den Anfang. Das Formular öffnet anschließend deine E-Mail-App mit der vorbereiteten Anfrage."
+  },
+  "team": {
+    "eyebrow": "Unser Rudel",
+    "headline": "Die Menschen hinter der Rudelbar.",
+    "text": "Gemeinsam anpacken, gemeinsam feiern, gemeinsam Rudelbar.",
+    "members": [
+      {
+        "name": "Bärchen",
+        "role": "Inhaber",
+        "description": "Kurze Beschreibung folgt.",
+        "image": ""
+      }
+    ]
   }
 }

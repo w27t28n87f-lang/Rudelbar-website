@@ -24,6 +24,7 @@ async function loadSite() {
   });
 
   renderServices();
+  renderTeam();
   renderMobileImage();
 }
 
@@ -48,6 +49,51 @@ function renderServices() {
 
     article.append(number, title, text);
     container.appendChild(article);
+  });
+}
+
+function renderTeam() {
+  const container = document.getElementById("teamGrid");
+  if (!container) return;
+  container.innerHTML = "";
+
+  (SITE.team?.members || []).forEach(member => {
+    const card = document.createElement("article");
+    card.className = "team-card";
+
+    const media = document.createElement("div");
+    media.className = "team-photo";
+
+    if (member.image) {
+      const img = document.createElement("img");
+      img.src = member.image;
+      img.alt = member.name ? `Foto von ${member.name}` : "Rudelbar Teammitglied";
+      img.loading = "lazy";
+      media.appendChild(img);
+    } else {
+      const placeholder = document.createElement("div");
+      placeholder.className = "team-placeholder";
+      placeholder.textContent = "🐺";
+      media.appendChild(placeholder);
+    }
+
+    const body = document.createElement("div");
+    body.className = "team-body";
+
+    const name = document.createElement("h3");
+    name.textContent = member.name || "Teammitglied";
+
+    const role = document.createElement("p");
+    role.className = "team-role";
+    role.textContent = member.role || "";
+
+    const description = document.createElement("p");
+    description.className = "team-description";
+    description.textContent = member.description || "";
+
+    body.append(name, role, description);
+    card.append(media, body);
+    container.appendChild(card);
   });
 }
 

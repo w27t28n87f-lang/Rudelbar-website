@@ -1,29 +1,17 @@
-RUDELBAR WEBSITE V3 – CMS
+RUDELBAR WEBSITE V4 – TEAM / CMS
 
 Neu:
-- Inhalte liegen in site.json.
-- Pages CMS bearbeitet site.json über eine grafische Oberfläche.
-- .pages.yml definiert die Bearbeitungsfelder.
-- Bilder können über Pages CMS hochgeladen werden.
-- Mobile Kneipe / Mode / Service / Security besitzen Sichtbarkeitsschalter.
-- Aktuell existiert öffentlich weiterhin nur die Mobile-Kneipe-Sektion.
-  Die Schalter für spätere Sparten sind bereits vorbereitet.
+- Bereich „Unser Rudel / Team“
+- Team kann komplett ein-/ausgeblendet werden.
+- Beliebig viele Teammitglieder über Pages CMS.
+- Pro Person: Name/Spitzname, Rolle, Kurzbeschreibung, Foto.
+- Responsive Teamkarten: Desktop 3-spaltig, Tablet 2-spaltig, Handy 1-spaltig.
+- Ohne Foto wird ein Wolf-Platzhalter gezeigt.
 
-UPLOAD AUF GITHUB:
-Alle Dateien aus diesem Paket in das Hauptverzeichnis des Repositorys hochladen.
-Vorhandene Dateien ersetzen.
+WICHTIG BEIM IPHONE:
+Die Datei .pages.yml beginnt mit einem Punkt und kann beim Upload/Entpacken
+unsichtbar sein. Falls sie beim GitHub-Upload fehlt, die bestehende .pages.yml
+in GitHub durch den vollständigen Inhalt aus dieser V4 ersetzen.
 
-PAGES CMS:
-1. https://app.pagescms.org öffnen.
-2. Mit GitHub anmelden.
-3. Pages CMS GitHub App für das Repository rudelbar-website freigeben.
-4. Repository öffnen.
-5. Pages CMS erkennt .pages.yml.
-6. Unter „Rudelbar Website“ Inhalte bearbeiten und speichern.
-
-WICHTIG:
-In der Verwaltung die echte Rudelbar-E-Mail-Adresse eintragen, bevor das
-Event-Anfrageformular öffentlich genutzt wird.
-
-Impressum und Datenschutz bleiben Platzhalter und müssen vor dem finalen
-öffentlichen Geschäftsbetrieb vervollständigt werden.
+Für das Update müssen index.html, script.js, style.css, site.json und .pages.yml
+aus V4 verwendet werden. Die übrigen Dateien sind ebenfalls vollständig enthalten.
