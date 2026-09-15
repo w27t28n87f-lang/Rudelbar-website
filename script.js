@@ -3,21 +3,29 @@ let SITE = null;
 const getValue = (object, path) =>
   path.split(".").reduce((value, key) => value?.[key], object);
 function normalizeMediaPath(value) {
+  // Pages CMS normally stores image fields as strings. Some versions/configs
+  // can return a small object, so accept both forms.
+  if (value && typeof value === "object") {
+    value = value.src || value.path || value.url || value.value || "";
+  }
   if (!value || typeof value !== "string") return "";
+
   let path = value.trim().replace(/\\/g, "/");
   if (!path) return "";
   if (/^(https?:|data:|blob:)/i.test(path)) return path;
 
+  // Remove CMS/GitHub-style prefixes, but keep the image inside /images.
   path = path.replace(/^\.\//, "");
-  path = path.replace(/^\/Rudelbar-website\//i, "");
   path = path.replace(/^\/+/, "");
 
-  if (path.startsWith("images/")) return path;
+  const imagesIndex = path.toLowerCase().indexOf("images/");
+  if (imagesIndex >= 0) path = path.slice(imagesIndex);
+  else path = `images/${path.split("/").pop()}`;
 
-  const filename = path.split("/").pop();
-  return filename ? `images/${filename}` : "";
+  // Resolve relative to the current GitHub Pages site root. This works both
+  // on <user>.github.io/<repo>/ and on a later custom domain.
+  return new URL(path, document.baseURI).href;
 }
-
 
 async function loadSite() {
   const response = await fetch(`site.json?v=${Date.now()}`, { cache: "no-store" });
@@ -118,12 +126,29 @@ function renderMobileImage() {
   const placeholder = document.getElementById("mobilePlaceholder");
   const image = normalizeMediaPath(SITE.mobile?.image);
 
-  if (!visual || !image) return;
+  if (!visual) return;
+  visual.querySelector(".cms-mobile-image")?.remove();
 
-  visual.style.backgroundImage =
-    `linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.18)), url("${image.replace(/"/g, '\\"')}")`;
-  visual.style.backgroundSize = "cover";
-  visual.style.backgroundPosition = "center";
+  if (!image) {
+    visual.classList.remove("has-cms-image");
+    return;
+  }
+
+  const img = document.createElement("img");
+  img.className = "cms-mobile-image";
+  img.src = image;
+  img.alt = SITE.mobile?.imageAlt || "Rudelbar";
+  img.loading = "lazy";
+
+  img.addEventListener("load", () => {
+    visual.classList.add("has-cms-image");
+  });
+  img.addEventListener("error", () => {
+    visual.classList.remove("has-cms-image");
+    console.error("Rudelbar: Bild konnte nicht geladen werden:", image);
+  });
+
+  visual.prepend(img);
   if (placeholder) placeholder.textContent = SITE.mobile?.imageAlt || "";
 }
 
