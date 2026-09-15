@@ -1,0 +1,86 @@
+media:
+  input: .
+  output: /
+  rename: safe
+  extensions: [png, jpg, jpeg, webp]
+
+content:
+  - name: website
+    label: Rudelbar Website
+    type: file
+    path: site.json
+    format: json
+    fields:
+      - name: brand
+        label: Kontakt & Marke
+        type: object
+        fields:
+          - { name: slogan, label: Slogan, type: string }
+          - { name: email, label: E-Mail, type: string }
+          - { name: phone, label: Telefon, type: string }
+          - { name: whatsapp, label: WhatsApp, type: string }
+          - { name: instagram, label: Instagram, type: string }
+          - { name: youtube, label: YouTube, type: string }
+
+      - name: visibility
+        label: Bereiche anzeigen
+        type: object
+        fields:
+          - { name: mobileKneipe, label: Mobile Kneipe, type: boolean }
+          - { name: mode, label: Mode, type: boolean }
+          - { name: service, label: Service, type: boolean }
+          - { name: security, label: Security, type: boolean }
+
+      - name: hero
+        label: Startseite
+        type: object
+        fields:
+          - { name: eyebrow, label: Kleine Überschrift, type: string }
+          - { name: headline1, label: Überschrift Zeile 1, type: string }
+          - { name: headline2, label: Überschrift Zeile 2, type: string }
+          - { name: headlineAccent, label: Gelbe Überschrift, type: string }
+          - { name: text, label: Beschreibung, type: text }
+          - { name: primaryButton, label: Hauptbutton, type: string }
+          - { name: secondaryButton, label: Zweiter Button, type: string }
+
+      - name: mobile
+        label: Mobile Kneipe
+        type: object
+        fields:
+          - { name: eyebrow, label: Kleine Überschrift, type: string }
+          - { name: headline, label: Überschrift, type: string }
+          - { name: lead, label: Haupttext, type: text }
+          - { name: text, label: Zusatztext, type: text }
+          - { name: image, label: Foto, type: image }
+          - { name: imageAlt, label: Bildbeschreibung, type: string }
+
+      - name: services
+        label: Einsatzmöglichkeiten
+        type: object
+        fields:
+          - { name: eyebrow, label: Kleine Überschrift, type: string }
+          - { name: headline, label: Überschrift, type: string }
+          - name: items
+            label: Karten
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titel, type: string }
+              - { name: text, label: Text, type: text }
+
+      - name: about
+        label: Über uns
+        type: object
+        fields:
+          - { name: eyebrow, label: Kleine Überschrift, type: string }
+          - { name: headline, label: Überschrift, type: string }
+          - { name: lead, label: Haupttext, type: text }
+          - { name: text, label: Zusatztext, type: text }
+
+      - name: request
+        label: Eventanfrage
+        type: object
+        fields:
+          - { name: eyebrow, label: Kleine Überschrift, type: string }
+          - { name: headline, label: Überschrift, type: string }
+          - { name: text, label: Beschreibung, type: text }
