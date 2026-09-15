@@ -88,17 +88,24 @@ function renderTeam() {
     const media = document.createElement("div");
     media.className = "team-photo";
 
-    if (member.image) {
-      const img = document.createElement("img");
-      img.src = normalizeMediaPath(member.image);
-      img.alt = member.name ? `Foto von ${member.name}` : "Rudelbar Teammitglied";
-      img.loading = "lazy";
-      media.appendChild(img);
-    } else {
+    const teamImage = normalizeMediaPath(member.image);
+    const addTeamPlaceholder = () => {
+      media.innerHTML = "";
       const placeholder = document.createElement("div");
       placeholder.className = "team-placeholder";
       placeholder.textContent = "🐺";
       media.appendChild(placeholder);
+    };
+
+    if (teamImage) {
+      const img = document.createElement("img");
+      img.src = teamImage;
+      img.alt = member.name ? `Foto von ${member.name}` : "Rudelbar Teammitglied";
+      img.loading = "lazy";
+      img.addEventListener("error", addTeamPlaceholder, { once: true });
+      media.appendChild(img);
+    } else {
+      addTeamPlaceholder();
     }
 
     const body = document.createElement("div");
@@ -145,11 +152,11 @@ function renderMobileImage() {
   });
   img.addEventListener("error", () => {
     visual.classList.remove("has-cms-image");
+    img.remove();
     console.error("Rudelbar: Bild konnte nicht geladen werden:", image);
-  });
+  }, { once: true });
 
   visual.prepend(img);
-  if (placeholder) placeholder.textContent = SITE.mobile?.imageAlt || "";
 }
 
 const menuButton = document.querySelector(".menu-toggle");

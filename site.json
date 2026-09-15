@@ -1,14 +1,18 @@
 {
   "brand": {
     "slogan": "Gemeinsam. Überall. Rudelbar.",
-    "email": "DEINE-EMAIL@RUDELBAR.DE"
+    "email": "DEINE-EMAIL@RUDELBAR.DE",
+    "phone": "",
+    "whatsapp": "",
+    "instagram": "",
+    "youtube": ""
   },
   "visibility": {
     "mobileKneipe": true,
-    "team": true,
     "mode": false,
     "service": false,
-    "security": false
+    "security": false,
+    "team": true
   },
   "hero": {
     "eyebrow": "Die mobile Kneipe",
@@ -24,7 +28,7 @@
     "headline": "Die Kneipe kommt zu dir.",
     "lead": "Statt deine Gäste zur Kneipe zu schicken, bringen wir die Kneipe zu deinen Gästen. Die Rudelbar ist für Veranstaltungen gedacht, bei denen Ausschank, Atmosphäre und ein unkomplizierter Ablauf zusammengehören.",
     "text": "Ob private Feier, Vereinsfest oder größere Veranstaltung: Wir stimmen den Einsatz passend zu deinem Event ab.",
-    "image": "/images/ae5afad5-35eb-48a5-8f10-592dabbcb120-1.png",
+    "image": "",
     "imageAlt": "Rudelbar Ausschankwagen oder Veranstaltung"
   },
   "services": {
@@ -55,6 +59,11 @@
     "lead": "Rudelbar steht für gemeinsames Anpacken, gute Veranstaltungen und eine mobile Kneipe, die nicht nach Schema F funktioniert.",
     "text": "Unser Ziel ist simpel: Du kümmerst dich um deine Gäste und deinen Abend. Wir kümmern uns darum, dass hinter dem Tresen alles läuft."
   },
+  "request": {
+    "eyebrow": "Event anfragen",
+    "headline": "Erzähl uns, was du vorhast.",
+    "text": "Ein paar Eckdaten reichen für den Anfang. Das Formular öffnet anschließend deine E-Mail-App mit der vorbereiteten Anfrage."
+  },
   "team": {
     "eyebrow": "Unser Rudel",
     "headline": "Die Menschen hinter der Rudelbar.",
@@ -63,13 +72,9 @@
       {
         "name": "Bärchen",
         "role": "Inhaber",
-        "description": "Kurze Beschreibung folgt."
+        "description": "Kurze Beschreibung folgt.",
+        "image": ""
       }
     ]
-  },
-  "request": {
-    "eyebrow": "Event anfragen",
-    "headline": "Erzähl uns, was du vorhast.",
-    "text": "Ein paar Eckdaten reichen für den Anfang. Das Formular öffnet anschließend deine E-Mail-App mit der vorbereiteten Anfrage."
   }
 }

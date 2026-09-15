@@ -281,9 +281,15 @@ h3 {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.18));
+  background: linear-gradient(to top, rgba(0,0,0,.30), rgba(0,0,0,.06));
   z-index: 1;
   pointer-events: none;
+}
+
+/* Sobald ein CMS-Foto vorhanden ist, keine Platzhalter-Texte oder Emojis darüberlegen. */
+.visual-card.has-cms-image .visual-mark,
+.visual-card.has-cms-image #mobilePlaceholder {
+  display: none;
 }
 
 
