@@ -4,8 +4,8 @@
     "email": "DEINE-EMAIL@RUDELBAR.DE"
   },
   "visibility": {
-    "mobileKneipe": true,
-    "team": true,
+    "mobileKneipe": false,
+    "team": false,
     "mode": false,
     "service": false,
     "security": false
