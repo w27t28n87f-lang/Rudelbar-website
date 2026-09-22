@@ -115,7 +115,7 @@
       }
     ]
   },
-   "request": {
+    "request": {
     "eyebrow": "Event anfragen",
     "headline": "Erzähl uns, was du vorhast.",
     "text": "Ein paar Eckdaten reichen für den Anfang. Das Formular öffnet anschließend deine E-Mail-App mit der vorbereiteten Anfrage."
@@ -137,8 +137,5 @@
     "hosting": "GitHub Pages",
     "contact": "Die aktuelle Website-Version versendet das Anfrageformular nicht über einen Server. Beim Absenden wird lediglich das auf dem Gerät eingerichtete E-Mail-Programm mit vorbereiteten Angaben geöffnet.",
     "externalServices": ""
-  }
-}
-    "text": "Ein paar Eckdaten reichen für den Anfang. Das Formular öffnet anschließend deine E-Mail-App mit der vorbereiteten Anfrage."
   }
 }
