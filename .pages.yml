@@ -44,6 +44,40 @@ content:
           - { name: primaryButton, label: Hauptbutton, type: string }
           - { name: secondaryButton, label: Zweiter Button, type: string }
 
+
+      - name: philosophy
+        label: Philosophie / Warum es uns gibt
+        type: object
+        fields:
+          - { name: eyebrow, label: Kleine Überschrift, type: string }
+          - { name: headline, label: Überschrift, type: string }
+          - { name: lead, label: Einleitung, type: text }
+          - { name: text1, label: Geschichte Teil 1, type: text }
+          - { name: text2, label: Geschichte Teil 2, type: text }
+          - { name: emphasis, label: Kernsatz, type: text }
+
+      - name: statement
+        label: Unser Standpunkt
+        type: object
+        fields:
+          - { name: eyebrow, label: Kleine Überschrift, type: string }
+          - { name: headline, label: Überschrift, type: string }
+          - { name: text, label: Text, type: text }
+
+      - name: values
+        label: Werte / Wofür wir stehen
+        type: object
+        fields:
+          - { name: eyebrow, label: Kleine Überschrift, type: string }
+          - { name: headline, label: Überschrift, type: string }
+          - { name: communityTitle, label: Wert 1 Titel, type: string }
+          - { name: communityText, label: Wert 1 Text, type: text }
+          - { name: opennessTitle, label: Wert 2 Titel, type: string }
+          - { name: opennessText, label: Wert 2 Text, type: text }
+          - { name: momentsTitle, label: Wert 3 Titel, type: string }
+          - { name: momentsText, label: Wert 3 Text, type: text }
+          - { name: closing, label: Abschluss-Satz, type: text }
+
       - name: mobile
         label: Mobile Kneipe
         type: object
