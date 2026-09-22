@@ -7,21 +7,93 @@
   <link rel="stylesheet" href="style.css">
   <title>Impressum | Rudelbar</title>
 </head>
+
 <body>
+
   <main class="legal-page">
     <div class="legal-inner">
-      <a class="legal-back" href="index.html">← Zurück zur Rudelbar</a>
+
+      <a class="legal-back" href="index.html">
+        ← Zurück zur Rudelbar
+      </a>
+
       <h1>Impressum</h1>
-      <p><strong>Hinweis:</strong> Diese Seite ist als Platzhalter vorbereitet. Vor Veröffentlichung müssen die tatsächlichen Pflichtangaben des Unternehmens eingetragen und rechtlich geprüft werden.</p>
+
       <h2>Anbieter</h2>
-      <p>Rudelbar<br>[vollständiger Unternehmensname]<br>[ladungsfähige Anschrift]</p>
+
+      <p>
+        <span data-legal="imprint.businessName">Rudelbar</span><br>
+        <span data-legal="imprint.address">
+          Anschrift in Pages CMS eintragen
+        </span>
+      </p>
+
       <h2>Vertreten durch</h2>
-      <p>[Name des Inhabers / Vertretungsberechtigten]</p>
+
+      <p data-legal="imprint.owner">
+        Martin Küster
+      </p>
+
       <h2>Kontakt</h2>
-      <p>Telefon: [Telefonnummer]<br>E-Mail: [E-Mail-Adresse]</p>
+
+      <p>
+        Telefon:
+        <span data-legal="imprint.phone">
+          in Pages CMS eintragen
+        </span>
+        <br>
+
+        E-Mail:
+        <span data-legal="imprint.email">
+          info@rudelbar.de
+        </span>
+      </p>
+
       <h2>Weitere Angaben</h2>
-      <p>[Steuerliche / registerrechtliche Angaben ergänzen, soweit erforderlich.]</p>
+
+      <p data-legal="imprint.additional">
+        Weitere Angaben können in Pages CMS ergänzt werden.
+      </p>
+
     </div>
   </main>
+
+  <script>
+    async function loadLegalContent() {
+      try {
+
+        const response = await fetch(
+          'site.json?v=' + Date.now(),
+          { cache: 'no-store' }
+        );
+
+        const site = await response.json();
+
+        document
+          .querySelectorAll('[data-legal]')
+          .forEach(element => {
+
+            const [group, key] =
+              element.dataset.legal.split('.');
+
+            const value = site[group]?.[key];
+
+            if (value) {
+              element.textContent = value;
+            }
+
+          });
+
+      } catch (error) {
+        console.error(
+          'Impressum konnte nicht geladen werden.',
+          error
+        );
+      }
+    }
+
+    loadLegalContent();
+  </script>
+
 </body>
 </html>
