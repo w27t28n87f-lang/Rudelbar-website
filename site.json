@@ -88,12 +88,14 @@
       {
         "name": "Martin",
         "role": "Inhaber",
-        "description": "Der Kopf hinter Rudelbar. Hat aus einer verrückten Idee ein gemeinsames Ziel gemacht und hält das Rudel auf Kurs"
+        "description": "Der Kopf hinter Rudelbar. Hat aus einer verrückten Idee ein gemeinsames Ziel gemacht und hält das Rudel auf Kurs",
+        "image": "/images/img7217.jpeg"
       },
       {
         "name": "Jan",
         "role": "Teammitglied & Stellvertreter",
-        "description": "Der Zahlenkopf im Rudel. Kleines Finanzgenie mit einem verdammt guten Blick fürs Geld und trotzdem für jeden Spaß zu haben."
+        "description": "Der Zahlenkopf im Rudel. Kleines Finanzgenie mit einem verdammt guten Blick fürs Geld und trotzdem für jeden Spaß zu haben.",
+        "image": "/images/3f1c4c08-af9d-402b-9118-33e5ac0faef8.jpeg"
       },
       {
         "name": "Jannik",
