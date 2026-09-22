@@ -1,18 +1,15 @@
 {
   "brand": {
     "slogan": "Gemeinsam. Überall. Rudelbar.",
-    "email": "DEINE-EMAIL@RUDELBAR.DE",
-    "phone": "",
-    "whatsapp": "",
-    "instagram": "",
-    "youtube": ""
+    "email": "info@rudelbar.de",
+    "instagram": "#RUDELBAR"
   },
   "visibility": {
     "mobileKneipe": true,
+    "team": true,
     "mode": false,
     "service": false,
-    "security": false,
-    "team": true
+    "security": false
   },
   "hero": {
     "eyebrow": "Mehr als eine Bar",
@@ -23,12 +20,35 @@
     "primaryButton": "Event anfragen",
     "secondaryButton": "Das ist Rudelbar"
   },
+  "philosophy": {
+    "eyebrow": "Warum es uns gibt",
+    "headline": "Wir wollen Menschen wieder zusammenbringen.",
+    "lead": "Irgendwann haben wir uns gefragt, wann es eigentlich so kompliziert geworden ist, einfach zusammenzukommen.",
+    "text1": "Nicht online. Nicht in irgendeiner Bubble. Sondern wirklich. Gemeinsam stehen. Reden. Lachen. Ein Bier trinken. Neue Leute kennenlernen und für ein paar Stunden vergessen, was uns sonst voneinander trennt.",
+    "text2": "Daraus entstand Rudelbar. Nicht als klassische Bar und nicht einfach als Getränkeausschank. Sondern aus einer Idee: Wir wollen Orte schaffen, an denen aus Menschen wieder eine Gemeinschaft wird.",
+    "emphasis": "Wir bringen Menschen zusammen. Alles andere ist das Werkzeug dafür."
+  },
+  "statement": {
+    "eyebrow": "Unser Standpunkt",
+    "headline": "Eine Bar ohne festen Ort. Aber mit einem festen Standpunkt.",
+    "text": "Bei uns geht es nicht darum, wer du bist, was du hast oder woher du kommst. Am Tresen stehen alle nebeneinander. Menschen, die sich kennen. Menschen, die sich gerade erst kennenlernen. Genau dafür bauen wir unsere Bar auf."
+  },
+  "values": {
+    "eyebrow": "Wofür wir stehen",
+    "headline": "Was Rudelbar bedeutet.",
+    "communityTitle": "Gemeinschaft",
+    "communityText": "Wir schaffen Orte, an denen Menschen miteinander statt nur nebeneinander sind.",
+    "opennessTitle": "Offenheit",
+    "opennessText": "Bei uns braucht niemand eine Einladung, um dazuzugehören. Der Tresen ist Treffpunkt, nicht Grenze.",
+    "momentsTitle": "Echte Momente",
+    "momentsText": "Reden, lachen, anstoßen und einen Abend erleben, an den man sich erinnert.",
+    "closing": "Du musst nicht dazugehören, bevor du kommst. Du gehörst dazu, wenn du da bist."
+  },
   "mobile": {
     "eyebrow": "Und manchmal braucht Gemeinschaft nur einen Tresen",
     "headline": "Die mobile Kneipe ist unser Treffpunkt auf Rädern.",
     "lead": "Unsere mobile Kneipe bringt den Rudelbar-Gedanken dorthin, wo Menschen zusammenkommen: auf Feste, Veranstaltungen, Vereinsfeiern und besondere Orte.",
     "text": "Getränke gehören dazu. Aber sie sind nicht der Grund, warum wir losfahren. Wir verkaufen nicht einfach Bier. Wir schaffen den Ort drumherum.",
-    "image": "",
     "imageAlt": "Rudelbar Ausschankwagen oder Veranstaltung"
   },
   "services": {
@@ -59,46 +79,41 @@
     "lead": "Rudelbar ist die Idee, dass Gemeinschaft überall entstehen kann.",
     "text": "Vielleicht kommst du wegen eines Bieres, wegen der Musik oder weil dich jemand mitgeschleppt hat. Wenn du am Ende des Abends mit Menschen gesprochen, gelacht oder angestoßen hast, die du vorher nicht kanntest, dann haben wir erreicht, wofür Rudelbar gegründet wurde."
   },
-  "request": {
-    "eyebrow": "Event anfragen",
-    "headline": "Erzähl uns, was du vorhast.",
-    "text": "Ein paar Eckdaten reichen für den Anfang. Das Formular öffnet anschließend deine E-Mail-App mit der vorbereiteten Anfrage."
-  },
   "team": {
     "eyebrow": "Unser Rudel",
     "headline": "Die Menschen hinter der Rudelbar.",
     "text": "Gemeinsam anpacken, gemeinsam feiern, gemeinsam Rudelbar.",
     "members": [
       {
-        "name": "Bärchen",
+        "name": "Martin",
         "role": "Inhaber",
-        "description": "Kurze Beschreibung folgt.",
-        "image": ""
+        "description": "Der Kopf hinter Rudelbar. Hat aus einer verrückten Idee ein gemeinsames Ziel gemacht und hält das Rudel auf Kurs"
+      },
+      {
+        "name": "Jan",
+        "role": "Teammitglied & Stellvertreter",
+        "description": "Der Zahlenkopf im Rudel. Kleines Finanzgenie mit einem verdammt guten Blick fürs Geld und trotzdem für jeden Spaß zu haben."
+      },
+      {
+        "name": "Jannik",
+        "role": "Teammitglied & Medienbeauftragter",
+        "description": "Unser Mann für Hardware und Social Media. Bringt die Technik zum Laufen, das Rudel ins Netz und packt an, bevor andere überhaupt merken, dass Arbeit da ist."
+      },
+      {
+        "name": "Paddy",
+        "role": "Teammitglied & Eventbeauftragter",
+        "description": "Unser Gourmet mit Spieltrieb. Kümmert sich um Genuss und liefert die Ideen für Spiele und Aktionen, bei denen Fremde miteinander lachen und am Ende vielleicht als Freunde nach Hause gehen."
+      },
+      {
+        "name": "Patryk",
+        "role": "Teammitglied & Einsatzbeauftragter",
+        "description": "Unser Mann für den Einsatz. Packt an, wo Hilfe gebraucht wird, behält auch dann die Ruhe, wenn es hektisch wird, und sorgt mit dafür, dass aus unseren Ideen am Ende echte Rudelbar-Momente werden."
       }
     ]
   },
-  "philosophy": {
-    "eyebrow": "Warum es uns gibt",
-    "headline": "Wir wollen Menschen wieder zusammenbringen.",
-    "lead": "Irgendwann haben wir uns gefragt, wann es eigentlich so kompliziert geworden ist, einfach zusammenzukommen.",
-    "text1": "Nicht online. Nicht in irgendeiner Bubble. Sondern wirklich. Gemeinsam stehen. Reden. Lachen. Ein Bier trinken. Neue Leute kennenlernen und für ein paar Stunden vergessen, was uns sonst voneinander trennt.",
-    "text2": "Daraus entstand Rudelbar. Nicht als klassische Bar und nicht einfach als Getränkeausschank. Sondern aus einer Idee: Wir wollen Orte schaffen, an denen aus Menschen wieder eine Gemeinschaft wird.",
-    "emphasis": "Wir bringen Menschen zusammen. Alles andere ist das Werkzeug dafür."
-  },
-  "statement": {
-    "eyebrow": "Unser Standpunkt",
-    "headline": "Eine Bar ohne festen Ort. Aber mit einem festen Standpunkt.",
-    "text": "Bei uns geht es nicht darum, wer du bist, was du hast oder woher du kommst. Am Tresen stehen alle nebeneinander. Menschen, die sich kennen. Menschen, die sich gerade erst kennenlernen. Genau dafür bauen wir unsere Bar auf."
-  },
-  "values": {
-    "eyebrow": "Wofür wir stehen",
-    "headline": "Was Rudelbar bedeutet.",
-    "communityTitle": "Gemeinschaft",
-    "communityText": "Wir schaffen Orte, an denen Menschen miteinander statt nur nebeneinander sind.",
-    "opennessTitle": "Offenheit",
-    "opennessText": "Bei uns braucht niemand eine Einladung, um dazuzugehören. Der Tresen ist Treffpunkt, nicht Grenze.",
-    "momentsTitle": "Echte Momente",
-    "momentsText": "Reden, lachen, anstoßen und einen Abend erleben, an den man sich erinnert.",
-    "closing": "Du musst nicht dazugehören, bevor du kommst. Du gehörst dazu, wenn du da bist."
+  "request": {
+    "eyebrow": "Event anfragen",
+    "headline": "Erzähl uns, was du vorhast.",
+    "text": "Ein paar Eckdaten reichen für den Anfang. Das Formular öffnet anschließend deine E-Mail-App mit der vorbereiteten Anfrage."
   }
 }
