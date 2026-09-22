@@ -11,6 +11,7 @@ content:
     path: site.json
     format: json
     fields:
+
       - name: brand
         label: Kontakt & Marke
         type: object
@@ -43,7 +44,6 @@ content:
           - { name: text, label: Beschreibung, type: text }
           - { name: primaryButton, label: Hauptbutton, type: string }
           - { name: secondaryButton, label: Zweiter Button, type: string }
-
 
       - name: philosophy
         label: Philosophie / Warum es uns gibt
@@ -136,3 +136,25 @@ content:
           - { name: eyebrow, label: Kleine Überschrift, type: string }
           - { name: headline, label: Überschrift, type: string }
           - { name: text, label: Beschreibung, type: text }
+
+      - name: imprint
+        label: Impressum
+        type: object
+        fields:
+          - { name: businessName, label: Unternehmensname, type: string }
+          - { name: owner, label: Inhaber / Vertretungsberechtigter, type: string }
+          - { name: address, label: Ladungsfähige Anschrift, type: text }
+          - { name: phone, label: Telefon, type: string }
+          - { name: email, label: E-Mail, type: string }
+          - { name: additional, label: Weitere Angaben, type: text }
+
+      - name: privacy
+        label: Datenschutz
+        type: object
+        fields:
+          - { name: controller, label: Verantwortlicher, type: string }
+          - { name: address, label: Anschrift, type: text }
+          - { name: email, label: E-Mail, type: string }
+          - { name: hosting, label: Hosting, type: text }
+          - { name: contact, label: Kontaktaufnahme, type: text }
+          - { name: externalServices, label: Externe Dienste / Hinweise, type: text }
