@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#090909">
+  <title>Rudelbar · Teamfoto ausrichten</title>
+  <style>
+    :root{--bg:#090909;--panel:#121212;--line:#303030;--text:#f4f4f4;--muted:#aaa;--gold:#ffc400}
+    *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+    body{min-height:100vh;padding:18px 16px 36px;overscroll-behavior:none}
+    .app{max-width:760px;margin:auto}.head{display:flex;align-items:center;gap:14px;margin-bottom:18px}.head img{width:58px;height:58px;object-fit:contain}.head h1{font-size:1.35rem;margin:0}.head p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+    label{display:block;font-weight:700;margin-bottom:8px}select,input[type=file]{width:100%;font:inherit;color:var(--text);background:#181818;border:1px solid #444;border-radius:12px;padding:13px}
+    .stage{position:relative;width:100%;aspect-ratio:5/4;overflow:hidden;background:#1b1b1b;border:1px solid #3b3b3b;border-radius:14px;touch-action:none;user-select:none;-webkit-user-select:none}
+    .stage img{position:absolute;left:50%;top:50%;max-width:none;pointer-events:none;transform-origin:center center;will-change:transform}
+    .guide{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,196,0,.65)}
+    .guide:before,.guide:after{content:"";position:absolute;background:rgba(255,255,255,.18)}.guide:before{left:33.333%;top:0;bottom:0;width:1px;box-shadow:calc(33.333vw) 0 rgba(255,255,255,.18)}.guide:after{top:33.333%;left:0;right:0;height:1px;box-shadow:0 calc(33.333vw) rgba(255,255,255,.18)}
+    .hint{text-align:center;color:var(--muted);font-size:.9rem;line-height:1.45;margin:12px 0 0}.hint strong{color:var(--gold)}
+    .buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.btn{appearance:none;border:1px solid #444;background:#202020;color:#fff;border-radius:12px;padding:14px 12px;font-weight:800;font-size:1rem}.btn.primary{background:var(--gold);border-color:var(--gold);color:#090909}.btn:disabled{opacity:.4}.wide{grid-column:1/-1}.status{min-height:22px;margin-top:10px;color:var(--muted);font-size:.9rem;text-align:center}.small{font-size:.82rem;color:var(--muted);line-height:1.45;margin:0}.badge{display:inline-block;background:#272000;color:var(--gold);padding:5px 9px;border-radius:999px;font-weight:800;font-size:.78rem;margin-bottom:8px}
+  </style>
+</head>
+<body>
+<main class="app">
+  <header class="head"><img src="logo-haupt.png" alt="Rudelbar"><div><h1>Teamfoto ausrichten</h1><p>Für die Teamkarten auf rudelbar.de</p></div></header>
+  <section class="panel">
+    <label for="member">Teammitglied</label><select id="member"><option value="">Bitte auswählen …</option></select>
+    <div style="height:12px"></div><label for="file">Oder neues Foto wählen</label><input id="file" type="file" accept="image/*">
+  </section>
+  <section class="panel">
+    <div class="badge">TOUCH-EDITOR</div>
+    <div class="stage" id="stage"><img id="photo" alt=""><div class="guide"></div></div>
+    <p class="hint"><strong>1 Finger:</strong> Bild verschieben &nbsp; · &nbsp; <strong>2 Finger:</strong> größer / kleiner ziehen</p>
+    <div class="buttons"><button class="btn" id="reset" disabled>↺ Zurücksetzen</button><button class="btn primary" id="save" disabled>Bild speichern</button></div>
+    <div class="status" id="status"></div>
+  </section>
+  <section class="panel"><p class="small"><strong style="color:#fff">Danach:</strong> Das gespeicherte Bild in der normalen Rudelbar-Website-Verwaltung beim jeweiligen Teammitglied als Foto hochladen und oben auf das grüne Speichern-Symbol tippen. Der Ausschnitt selbst ist dann bereits fest im Bild und muss dort nicht mehr eingestellt werden.</p></section>
+</main>
+<script>
+(() => {
+  const stage=document.getElementById('stage'), img=document.getElementById('photo'), member=document.getElementById('member'), file=document.getElementById('file'), reset=document.getElementById('reset'), save=document.getElementById('save'), status=document.getElementById('status');
+  let naturalW=0,naturalH=0,baseScale=1,scale=1,x=0,y=0,active=false,pointers=new Map(),dragStart=null,pinchStart=null,currentName='teamfoto';
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  function bounds(){const r=stage.getBoundingClientRect(),w=naturalW*baseScale*scale,h=naturalH*baseScale*scale;return {mx:Math.max(0,(w-r.width)/2),my:Math.max(0,(h-r.height)/2)}}
+  function constrain(){const b=bounds();x=clamp(x,-b.mx,b.mx);y=clamp(y,-b.my,b.my)}
+  function draw(){if(!active)return;constrain();img.style.transform=`translate(calc(-50% + ${x}px),calc(-50% + ${y}px)) scale(${baseScale*scale})`}
+  function fit(){if(!naturalW||!naturalH)return;const r=stage.getBoundingClientRect();baseScale=Math.max(r.width/naturalW,r.height/naturalH);scale=1;x=0;y=0;draw()}
+  function load(src,name){status.textContent='';img.onload=()=>{naturalW=img.naturalWidth;naturalH=img.naturalHeight;active=true;currentName=(name||'teamfoto').replace(/[^a-z0-9äöüß_-]+/gi,'-').replace(/^-|-$/g,'')||'teamfoto';fit();reset.disabled=false;save.disabled=false};img.onerror=()=>status.textContent='Bild konnte nicht geladen werden.';img.src=src}
+  fetch('site.json',{cache:'no-store'}).then(r=>r.json()).then(data=>{(data.team?.members||[]).forEach((m,i)=>{if(!m.image)return;const o=document.createElement('option');o.value=m.image;o.textContent=m.name||`Teammitglied ${i+1}`;o.dataset.name=m.name||`team-${i+1}`;member.appendChild(o)})}).catch(()=>{});
+  member.addEventListener('change',()=>{const o=member.selectedOptions[0];if(o&&o.value){file.value='';load(o.value,o.dataset.name)}});
+  file.addEventListener('change',()=>{const f=file.files?.[0];if(!f)return;member.value='';load(URL.createObjectURL(f),f.name.replace(/\.[^.]+$/,''))});
+  reset.addEventListener('click',fit);
+  stage.addEventListener('pointerdown',e=>{if(!active)return;stage.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===1){dragStart={px:e.clientX,py:e.clientY,x,y}}else if(pointers.size===2){const p=[...pointers.values()],dx=p[0].x-p[1].x,dy=p[0].y-p[1].y;pinchStart={dist:Math.hypot(dx,dy),scale,x,y,cx:(p[0].x+p[1].x)/2,cy:(p[0].y+p[1].y)/2}}});
+  stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===1&&dragStart){x=dragStart.x+(e.clientX-dragStart.px);y=dragStart.y+(e.clientY-dragStart.py);draw()}else if(pointers.size>=2&&pinchStart){const p=[...pointers.values()].slice(0,2),dx=p[0].x-p[1].x,dy=p[0].y-p[1].y,dist=Math.hypot(dx,dy),newScale=clamp(pinchStart.scale*(dist/pinchStart.dist),1,4),cx=(p[0].x+p[1].x)/2,cy=(p[0].y+p[1].y)/2;x=pinchStart.x+(cx-pinchStart.cx);y=pinchStart.y+(cy-pinchStart.cy);scale=newScale;draw()}});
+  function pointerEnd(e){pointers.delete(e.pointerId);if(pointers.size===1){const p=[...pointers.values()][0];dragStart={px:p.x,py:p.y,x,y};pinchStart=null}else if(!pointers.size){dragStart=null;pinchStart=null}}
+  stage.addEventListener('pointerup',pointerEnd);stage.addEventListener('pointercancel',pointerEnd);
+  stage.addEventListener('wheel',e=>{if(!active)return;e.preventDefault();scale=clamp(scale*(e.deltaY<0?1.08:.92),1,4);draw()},{passive:false});
+  save.addEventListener('click',()=>{if(!active)return;const outW=1500,outH=1200,c=document.createElement('canvas');c.width=outW;c.height=outH;const ctx=c.getContext('2d'),r=stage.getBoundingClientRect(),factor=outW/r.width,total=baseScale*scale*factor,dw=naturalW*total,dh=naturalH*total;ctx.fillStyle='#111';ctx.fillRect(0,0,outW,outH);ctx.drawImage(img,(outW-dw)/2+x*factor,(outH-dh)/2+y*factor,dw,dh);c.toBlob(blob=>{if(!blob)return;const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${currentName}-rudelbar.jpg`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);status.textContent='✓ Fertig. Jetzt dieses Bild beim Teammitglied hochladen.'},'image/jpeg',.92)});
+  window.addEventListener('resize',()=>{if(active)fit()});
+})();
+</script>
+</body></html>

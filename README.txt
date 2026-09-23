@@ -15,3 +15,8 @@ in GitHub durch den vollständigen Inhalt aus dieser V4 ersetzen.
 
 Für das Update müssen index.html, script.js, style.css, site.json und .pages.yml
 aus V4 verwendet werden. Die übrigen Dateien sind ebenfalls vollständig enthalten.
+
+TEAMFOTO-EDITOR
+Nach Veröffentlichung aufrufbar unter: https://rudelbar.de/teamfoto.html
+1 Finger = verschieben, 2 Finger = zoomen.
+"Bild speichern" erzeugt ein fertiges 5:4-JPG. Dieses anschließend in Pages CMS beim Teammitglied als Foto hochladen und speichern.
