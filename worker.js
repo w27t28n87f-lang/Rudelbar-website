@@ -1,6 +1,6 @@
-const OWNER = "w27t28n87f-lang";
-const REPO = "Rudelbar-website";
-const BRANCH = "main";
+const GITHUB_OWNER = "w27t28n87f-lang";
+const GITHUB_REPO = "Rudelbar-website";
+const GITHUB_BRANCH = "main";
 
 const ALLOWED_ORIGINS = [
   "https://rudelbar.de",
@@ -10,18 +10,17 @@ const ALLOWED_ORIGINS = [
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
-    const corsOrigin = ALLOWED_ORIGINS.includes(origin)
-      ? origin
-      : ALLOWED_ORIGINS[0];
 
     const corsHeaders = {
-      "Access-Control-Allow-Origin": corsOrigin,
-      "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
+      "Access-Control-Allow-Origin": ALLOWED_ORIGINS.includes(origin)
+        ? origin
+        : "https://rudelbar.de",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, X-Rudelbar-Key",
+      "Access-Control-Max-Age": "86400",
       "Vary": "Origin"
     };
 
-    // Browser-CORS-Anfrage
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -29,51 +28,48 @@ export default {
       });
     }
 
-    // Kleiner Funktionstest
-    if (request.method === "GET") {
-      return json(
-        {
-          ok: true,
-          service: "Rudelbar Teamfoto API",
-          status: "bereit"
-        },
-        200,
-        corsHeaders
-      );
-    }
-
     if (request.method !== "POST") {
       return json(
-        { ok: false, error: "Methode nicht erlaubt." },
+        {
+          ok: false,
+          error: "Nur POST-Anfragen sind erlaubt."
+        },
         405,
-        corsHeaders
-      );
-    }
-
-    // Nur rudelbar.de darf Browser-Anfragen senden
-    if (origin && !ALLOWED_ORIGINS.includes(origin)) {
-      return json(
-        { ok: false, error: "Origin nicht erlaubt." },
-        403,
-        corsHeaders
-      );
-    }
-
-    // Admin-Schlüssel prüfen
-    const adminKey = request.headers.get("X-Rudelbar-Key");
-
-    if (!adminKey || adminKey !== env.ADMIN_KEY) {
-      return json(
-        { ok: false, error: "Admin-Schlüssel ist falsch." },
-        401,
         corsHeaders
       );
     }
 
     if (!env.GITHUB_TOKEN) {
       return json(
-        { ok: false, error: "GITHUB_TOKEN fehlt im Worker." },
+        {
+          ok: false,
+          error: "GITHUB_TOKEN fehlt im Worker."
+        },
         500,
+        corsHeaders
+      );
+    }
+
+    if (!env.ADMIN_KEY) {
+      return json(
+        {
+          ok: false,
+          error: "ADMIN_KEY fehlt im Worker."
+        },
+        500,
+        corsHeaders
+      );
+    }
+
+    const suppliedKey = request.headers.get("X-Rudelbar-Key") || "";
+
+    if (suppliedKey !== env.ADMIN_KEY) {
+      return json(
+        {
+          ok: false,
+          error: "Falscher Admin-Schlüssel."
+        },
+        401,
         corsHeaders
       );
     }
@@ -82,59 +78,75 @@ export default {
       const body = await request.json();
 
       const memberName = String(body.memberName || "").trim();
-      const imageData = String(body.image || "");
+      const imageBase64 = String(body.imageBase64 || "")
+        .replace(/^data:image\/[a-zA-Z0-9.+-]+;base64,/, "");
 
       if (!memberName) {
         throw new Error("Kein Teammitglied angegeben.");
       }
 
-      if (!imageData.startsWith("data:image/jpeg;base64,")) {
-        throw new Error("Das Bild muss als JPEG übertragen werden.");
+      if (!imageBase64) {
+        throw new Error("Keine Bilddaten empfangen.");
       }
 
-      const base64 = imageData.split(",")[1];
-
-      // Schutz vor versehentlich riesigen Uploads
-      if (!base64 || base64.length > 8_000_000) {
-        throw new Error("Bild ist zu groß.");
+      // Sicherheitshalber keine riesigen Dateien an GitHub schicken.
+      // Der Fotoeditor erzeugt ohnehin ein komprimiertes JPG.
+      if (imageBase64.length > 8_000_000) {
+        throw new Error("Das Bild ist zu groß.");
       }
 
       const slug = slugify(memberName);
       const timestamp = Date.now();
 
-      // Neue Datei pro Änderung verhindert Cache-Probleme.
+      // Bei jedem Speichern neuer Dateiname.
+      // Dadurch zeigt GitHub Pages garantiert das neue Bild
+      // und wir kämpfen nicht gegen den Browser-Cache.
       const imagePath =
         `images/team/${slug}-${timestamp}.jpg`;
 
-      // 1. Bild zu GitHub schreiben
-      await githubPutFile(
+      // ----------------------------------------------------------
+      // 1. Neues Bild bei GitHub speichern
+      // ----------------------------------------------------------
+
+      await githubPut(
         imagePath,
-        base64,
+        imageBase64,
         `Teamfoto aktualisiert: ${memberName}`,
         env.GITHUB_TOKEN
       );
 
+      // ----------------------------------------------------------
       // 2. Aktuelle site.json laden
-      const siteFile = await githubGetFile(
+      // ----------------------------------------------------------
+
+      const siteFile = await githubGet(
         "site.json",
         env.GITHUB_TOKEN
       );
 
-      const siteText = decodeBase64Utf8(siteFile.content);
+      if (!siteFile || !siteFile.content || !siteFile.sha) {
+        throw new Error("site.json konnte nicht von GitHub geladen werden.");
+      }
+
+      const siteText = decodeBase64Utf8(
+        siteFile.content.replace(/\n/g, "")
+      );
+
       const site = JSON.parse(siteText);
 
-      if (!Array.isArray(site.team)) {
+      // Tatsächliche Struktur der Rudelbar-site.json:
+      // site.team.members
+      if (!Array.isArray(site.team?.members)) {
         throw new Error(
-          "In site.json wurde kein Team-Array gefunden."
+          "In site.json wurden keine Teammitglieder gefunden."
         );
       }
 
-      // Teammitglied suchen
-      const memberIndex = site.team.findIndex((member) => {
-        return String(member.name || "")
+      const memberIndex = site.team.members.findIndex(member =>
+        String(member.name || "")
           .trim()
-          .toLowerCase() === memberName.toLowerCase();
-      });
+          .toLowerCase() === memberName.toLowerCase()
+      );
 
       if (memberIndex === -1) {
         throw new Error(
@@ -142,20 +154,24 @@ export default {
         );
       }
 
-      // Bildpfad aktualisieren
-      site.team[memberIndex].image = imagePath;
+      // Neues Bild eintragen.
+      site.team.members[memberIndex].image =
+        "/" + imagePath;
 
-      const newSiteJson =
+      // ----------------------------------------------------------
+      // 3. site.json wieder speichern
+      // ----------------------------------------------------------
+
+      const newSiteText =
         JSON.stringify(site, null, 2) + "\n";
 
-      const encodedSiteJson =
-        encodeBase64Utf8(newSiteJson);
+      const newSiteBase64 =
+        encodeBase64Utf8(newSiteText);
 
-      // 3. site.json aktualisieren
-      await githubPutFile(
+      await githubPut(
         "site.json",
-        encodedSiteJson,
-        `Teamfoto-Verknüpfung aktualisiert: ${memberName}`,
+        newSiteBase64,
+        `Website-Teamfoto aktualisiert: ${memberName}`,
         env.GITHUB_TOKEN,
         siteFile.sha
       );
@@ -163,9 +179,10 @@ export default {
       return json(
         {
           ok: true,
-          message: "Teamfoto erfolgreich gespeichert.",
           member: memberName,
-          image: imagePath
+          image: "/" + imagePath,
+          message:
+            "Teamfoto wurde gespeichert und site.json aktualisiert."
         },
         200,
         corsHeaders
@@ -177,7 +194,9 @@ export default {
       return json(
         {
           ok: false,
-          error: error.message || "Unbekannter Fehler."
+          error:
+            error?.message ||
+            "Unbekannter Fehler beim Speichern."
         },
         500,
         corsHeaders
@@ -187,14 +206,15 @@ export default {
 };
 
 
-// --------------------------------------------------
+// ================================================================
 // GitHub
-// --------------------------------------------------
+// ================================================================
 
-async function githubGetFile(path, token) {
+async function githubGet(path, token) {
   const url =
-    `https://api.github.com/repos/${OWNER}/${REPO}` +
-    `/contents/${encodePath(path)}?ref=${BRANCH}`;
+    `https://api.github.com/repos/` +
+    `${GITHUB_OWNER}/${GITHUB_REPO}/contents/` +
+    `${encodePath(path)}?ref=${encodeURIComponent(GITHUB_BRANCH)}`;
 
   const response = await fetch(url, {
     headers: githubHeaders(token)
@@ -209,25 +229,26 @@ async function githubGetFile(path, token) {
     );
   }
 
-  return await response.json();
+  return response.json();
 }
 
 
-async function githubPutFile(
+async function githubPut(
   path,
-  content,
+  base64Content,
   message,
   token,
   sha = null
 ) {
   const url =
-    `https://api.github.com/repos/${OWNER}/${REPO}` +
-    `/contents/${encodePath(path)}`;
+    `https://api.github.com/repos/` +
+    `${GITHUB_OWNER}/${GITHUB_REPO}/contents/` +
+    encodePath(path);
 
   const payload = {
     message,
-    content,
-    branch: BRANCH
+    content: base64Content,
+    branch: GITHUB_BRANCH
   };
 
   if (sha) {
@@ -236,7 +257,12 @@ async function githubPutFile(
 
   const response = await fetch(url, {
     method: "PUT",
-    headers: githubHeaders(token),
+
+    headers: {
+      ...githubHeaders(token),
+      "Content-Type": "application/json"
+    },
+
     body: JSON.stringify(payload)
   });
 
@@ -249,7 +275,7 @@ async function githubPutFile(
     );
   }
 
-  return await response.json();
+  return response.json();
 }
 
 
@@ -263,32 +289,31 @@ function githubHeaders(token) {
 }
 
 
-// --------------------------------------------------
+// ================================================================
 // Hilfsfunktionen
-// --------------------------------------------------
+// ================================================================
+
+function slugify(value) {
+  return String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/ß/g, "ss")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "teamfoto";
+}
+
 
 function encodePath(path) {
   return path
     .split("/")
-    .map(encodeURIComponent)
+    .map(part => encodeURIComponent(part))
     .join("/");
 }
 
 
-function slugify(value) {
-  return value
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/ß/g, "ss")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "teammitglied";
-}
-
-
 function decodeBase64Utf8(base64) {
-  const cleaned = base64.replace(/\n/g, "");
-  const binary = atob(cleaned);
+  const binary = atob(base64);
 
   const bytes = Uint8Array.from(
     binary,
@@ -304,8 +329,16 @@ function encodeBase64Utf8(text) {
 
   let binary = "";
 
-  for (let i = 0; i < bytes.length; i++) {
-    binary += String.fromCharCode(bytes[i]);
+  const chunkSize = 0x8000;
+
+  for (
+    let i = 0;
+    i < bytes.length;
+    i += chunkSize
+  ) {
+    binary += String.fromCharCode(
+      ...bytes.subarray(i, i + chunkSize)
+    );
   }
 
   return btoa(binary);
@@ -318,9 +351,9 @@ function json(data, status, corsHeaders) {
     {
       status,
       headers: {
-        ...corsHeaders,
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "no-store"
+        "Content-Type":
+          "application/json; charset=utf-8",
+        ...corsHeaders
       }
     }
   );
