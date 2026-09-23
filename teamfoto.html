@@ -1,146 +1,1271 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#090909">
-  <title>Rudelbar · Teamfoto ausrichten</title>
-  <style>
-    :root{--bg:#090909;--panel:#121212;--line:#303030;--text:#f4f4f4;--muted:#aaa;--gold:#ffc400}
-    *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-    body{min-height:100vh;padding:18px 16px 36px;overscroll-behavior:none}
-    .app{max-width:760px;margin:auto}.head{display:flex;align-items:center;gap:14px;margin-bottom:18px}.head img{width:58px;height:58px;object-fit:contain}.head h1{font-size:1.35rem;margin:0}.head p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
-    .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
-    label{display:block;font-weight:700;margin-bottom:8px}select,input[type=file]{width:100%;font:inherit;color:var(--text);background:#181818;border:1px solid #444;border-radius:12px;padding:13px}
-    .stage{position:relative;width:100%;aspect-ratio:5/4;overflow:hidden;background:#1b1b1b;border:1px solid #3b3b3b;border-radius:14px;touch-action:none;user-select:none;-webkit-user-select:none}
-    .stage img{position:absolute;left:50%;top:50%;max-width:none;pointer-events:none;transform-origin:center center;will-change:transform}
-    .guide{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,196,0,.65)}
-    .guide:before,.guide:after{content:"";position:absolute;background:rgba(255,255,255,.18)}.guide:before{left:33.333%;top:0;bottom:0;width:1px;box-shadow:calc(33.333vw) 0 rgba(255,255,255,.18)}.guide:after{top:33.333%;left:0;right:0;height:1px;box-shadow:0 calc(33.333vw) rgba(255,255,255,.18)}
-    .hint{text-align:center;color:var(--muted);font-size:.9rem;line-height:1.45;margin:12px 0 0}.hint strong{color:var(--gold)}
-    .buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.btn{appearance:none;border:1px solid #444;background:#202020;color:#fff;border-radius:12px;padding:14px 12px;font-weight:800;font-size:1rem}.btn.primary{background:var(--gold);border-color:var(--gold);color:#090909}.btn:disabled{opacity:.4}.wide{grid-column:1/-1}.status{min-height:22px;margin-top:10px;color:var(--muted);font-size:.9rem;text-align:center}.small{font-size:.82rem;color:var(--muted);line-height:1.45;margin:0}.badge{display:inline-block;background:#272000;color:var(--gold);padding:5px 9px;border-radius:999px;font-weight:800;font-size:.78rem;margin-bottom:8px}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#090909">
+
+<title>Rudelbar · Teamfoto ausrichten</title>
+
+<style>
+:root{
+  --bg:#090909;
+  --panel:#121212;
+  --line:#303030;
+  --text:#f4f4f4;
+  --muted:#aaa;
+  --gold:#ffc400;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  padding:18px 16px 36px;
+  overscroll-behavior:none;
+}
+
+.app{
+  max-width:760px;
+  margin:auto;
+}
+
+.head{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.head img{
+  width:58px;
+  height:58px;
+  object-fit:contain;
+}
+
+.head h1{
+  font-size:1.35rem;
+  margin:0;
+}
+
+.head p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:14px;
+}
+
+label{
+  display:block;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+select,
+input{
+  width:100%;
+  font:inherit;
+  color:var(--text);
+  background:#181818;
+  border:1px solid #444;
+  border-radius:12px;
+  padding:13px;
+}
+
+.stage{
+  position:relative;
+  width:100%;
+  aspect-ratio:5/4;
+  overflow:hidden;
+  background:#1b1b1b;
+  border:1px solid #3b3b3b;
+  border-radius:14px;
+
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.stage img{
+  position:absolute;
+  left:50%;
+  top:50%;
+
+  max-width:none;
+
+  pointer-events:none;
+  transform-origin:center center;
+  will-change:transform;
+}
+
+.guide{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,196,0,.65);
+}
+
+.hint{
+  text-align:center;
+  color:var(--muted);
+  font-size:.9rem;
+  line-height:1.45;
+  margin:12px 0 0;
+}
+
+.hint strong{
+  color:var(--gold);
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:14px;
+}
+
+.btn{
+  border:1px solid #444;
+  background:#202020;
+  color:#fff;
+  border-radius:12px;
+  padding:14px 12px;
+  font-weight:800;
+  font-size:1rem;
+}
+
+.btn.primary{
+  background:var(--gold);
+  border-color:var(--gold);
+  color:#090909;
+}
+
+.btn:disabled{
+  opacity:.4;
+}
+
+.status{
+  min-height:22px;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:.9rem;
+  text-align:center;
+}
+
+.keyrow{
+  margin-top:14px;
+}
+
+.badge{
+  display:inline-block;
+  background:#272000;
+  color:var(--gold);
+  padding:5px 9px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:.78rem;
+  margin-bottom:8px;
+}
+</style>
 </head>
+
 <body>
+
 <main class="app">
-  <header class="head"><img src="logo-haupt.png" alt="Rudelbar"><div><h1>Teamfoto ausrichten</h1><p>Für die Teamkarten auf rudelbar.de</p></div></header>
-  <section class="panel">
-    <label for="member">Teammitglied</label><select id="member"><option value="">Bitte auswählen …</option></select>
-    <div style="height:12px"></div><label for="file">Oder neues Foto wählen</label><input id="file" type="file" accept="image/*">
-  </section>
-  <section class="panel">
-    <div class="badge">TOUCH-EDITOR</div>
-    <div class="stage" id="stage"><img id="photo" alt=""><div class="guide"></div></div>
-    <p class="hint"><strong>1 Finger:</strong> Bild verschieben &nbsp; · &nbsp; <strong>2 Finger:</strong> größer / kleiner ziehen</p>
-    <div class="buttons"><button class="btn" id="reset" disabled>↺ Zurücksetzen</button><button class="btn primary" id="save" disabled>Bild speichern</button></div>
-    <div class="status" id="status"></div>
-  </section>
-  <section class="panel"><p class="small"><strong style="color:#fff">Danach:</strong> Das gespeicherte Bild in der normalen Rudelbar-Website-Verwaltung beim jeweiligen Teammitglied als Foto hochladen und oben auf das grüne Speichern-Symbol tippen. Der Ausschnitt selbst ist dann bereits fest im Bild und muss dort nicht mehr eingestellt werden.</p></section>
+
+<header class="head">
+
+<img
+  src="logo-haupt.png"
+  alt="Rudelbar"
+>
+
+<div>
+<h1>Teamfoto ausrichten</h1>
+<p>Für die Teamkarten auf rudelbar.de</p>
+</div>
+
+</header>
+
+
+<section class="panel">
+
+<label for="member">
+Teammitglied
+</label>
+
+<select id="member">
+<option value="">
+Bitte auswählen …
+</option>
+</select>
+
+<div style="height:12px"></div>
+
+<label for="file">
+Oder neues Foto wählen
+</label>
+
+<input
+  id="file"
+  type="file"
+  accept="image/*"
+>
+
+</section>
+
+
+<section class="panel">
+
+<div class="badge">
+TOUCH-EDITOR
+</div>
+
+<div
+  class="stage"
+  id="stage"
+>
+
+<img
+  id="photo"
+  alt=""
+>
+
+<div class="guide"></div>
+
+</div>
+
+
+<p class="hint">
+
+<strong>1 Finger:</strong>
+frei verschieben
+
+&nbsp; · &nbsp;
+
+<strong>2 Finger:</strong>
+zoomen
+
+</p>
+
+
+<div class="keyrow">
+
+<label for="key">
+Admin-Schlüssel
+</label>
+
+<input
+  id="key"
+  type="password"
+  autocomplete="off"
+  placeholder="Admin-Schlüssel"
+>
+
+</div>
+
+
+<div class="buttons">
+
+<button
+  class="btn"
+  id="reset"
+  disabled
+>
+↺ Zurücksetzen
+</button>
+
+<button
+  class="btn primary"
+  id="save"
+  disabled
+>
+Auf Website speichern
+</button>
+
+</div>
+
+<div
+  class="status"
+  id="status"
+></div>
+
+</section>
+
 </main>
+
+
 <script>
 (() => {
-  const stage = document.getElementById('stage');
-  const img = document.getElementById('photo');
-  const member = document.getElementById('member');
-  const file = document.getElementById('file');
-  const reset = document.getElementById('reset');
-  const save = document.getElementById('save');
-  const status = document.getElementById('status');
 
-  let naturalW=0,naturalH=0,baseScale=1,scale=1,x=0,y=0,active=false,currentName='teamfoto';
-  let drag=null,pinch=null,mouseDown=false;
-  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const API =
+'https://rudelbar-teamfoto.w27t28n87f.workers.dev';
 
-  function bounds(){
-    const r=stage.getBoundingClientRect();
-    const w=naturalW*baseScale*scale, h=naturalH*baseScale*scale;
-    return {mx:Math.max(0,(w-r.width)/2),my:Math.max(0,(h-r.height)/2)};
-  }
-  function constrain(){const b=bounds();x=clamp(x,-b.mx,b.mx);y=clamp(y,-b.my,b.my)}
-  function draw(){
-    if(!active)return;
-    constrain();
-    img.style.width=naturalW+'px'; img.style.height=naturalH+'px';
-    img.style.transform=`translate(-50%,-50%) translate(${x}px,${y}px) scale(${baseScale*scale})`;
-  }
-  function fit(){
-    if(!naturalW||!naturalH)return;
-    const r=stage.getBoundingClientRect();
-    baseScale=Math.max(r.width/naturalW,r.height/naturalH);
-    scale=1;x=0;y=0;draw();
-  }
-  function load(src,name){
-    status.textContent='';
-    img.onload=()=>{naturalW=img.naturalWidth;naturalH=img.naturalHeight;active=true;currentName=(name||'teamfoto').replace(/[^a-z0-9äöüß_-]+/gi,'-').replace(/^-|-$/g,'')||'teamfoto';fit();reset.disabled=false;save.disabled=false};
-    img.onerror=()=>status.textContent='Bild konnte nicht geladen werden.';
-    img.src=src;
-  }
-  fetch('site.json',{cache:'no-store'}).then(r=>r.json()).then(data=>{
-    (data.team?.members||[]).forEach((m,i)=>{if(!m.image)return;const o=document.createElement('option');o.value=m.image;o.textContent=m.name||`Teammitglied ${i+1}`;o.dataset.name=m.name||`team-${i+1}`;member.appendChild(o)})
-  }).catch(()=>{});
-  member.addEventListener('change',()=>{const o=member.selectedOptions[0];if(o&&o.value){file.value='';load(o.value,o.dataset.name)}});
-  file.addEventListener('change',()=>{const f=file.files?.[0];if(!f)return;member.value='';load(URL.createObjectURL(f),f.name.replace(/\.[^.]+$/,''))});
-  reset.addEventListener('click',fit);
 
-  // iPhone/iPad: echte Touch-Gesten statt Pointer-Events
-  stage.addEventListener('touchstart',e=>{
-    if(!active)return;
-    e.preventDefault();
-    if(e.touches.length===1){
-      const t=e.touches[0]; drag={sx:t.clientX,sy:t.clientY,x,y}; pinch=null;
-    } else if(e.touches.length>=2){
-      const a=e.touches[0],b=e.touches[1];
-      pinch={dist:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),scale,x,y,cx:(a.clientX+b.clientX)/2,cy:(a.clientY+b.clientY)/2};
-      drag=null;
-    }
-  },{passive:false});
-  stage.addEventListener('touchmove',e=>{
-    if(!active)return;
-    e.preventDefault();
-    if(e.touches.length===1 && drag){
-      const t=e.touches[0]; x=drag.x+(t.clientX-drag.sx); y=drag.y+(t.clientY-drag.sy); draw();
-    } else if(e.touches.length>=2){
-      const a=e.touches[0],b=e.touches[1];
-      if(!pinch){pinch={dist:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),scale,x,y,cx:(a.clientX+b.clientX)/2,cy:(a.clientY+b.clientY)/2}}
-      const dist=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
-      const cx=(a.clientX+b.clientX)/2,cy=(a.clientY+b.clientY)/2;
-      scale=clamp(pinch.scale*(dist/Math.max(1,pinch.dist)),1,4);
-      x=pinch.x+(cx-pinch.cx); y=pinch.y+(cy-pinch.cy); draw();
-    }
-  },{passive:false});
-  stage.addEventListener('touchend',e=>{
-    if(e.touches.length===1){const t=e.touches[0];drag={sx:t.clientX,sy:t.clientY,x,y};pinch=null}else{drag=null;pinch=null}
-  },{passive:false});
-  stage.addEventListener('touchcancel',()=>{drag=null;pinch=null},{passive:false});
+const stage =
+document.getElementById('stage');
 
-  // Desktop: Maus ziehen + Mausrad zoomen
-  stage.addEventListener('mousedown',e=>{if(!active)return;mouseDown=true;drag={sx:e.clientX,sy:e.clientY,x,y};e.preventDefault()});
-  window.addEventListener('mousemove',e=>{if(!mouseDown||!drag)return;x=drag.x+(e.clientX-drag.sx);y=drag.y+(e.clientY-drag.sy);draw()});
-  window.addEventListener('mouseup',()=>{mouseDown=false;drag=null});
-  stage.addEventListener('wheel',e=>{if(!active)return;e.preventDefault();scale=clamp(scale*(e.deltaY<0?1.08:.92),1,4);draw()},{passive:false});
+const img =
+document.getElementById('photo');
 
-  async function exportImage(){
-    if(!active)return;
-    const outW=1500,outH=1200,c=document.createElement('canvas');c.width=outW;c.height=outH;
-    const ctx=c.getContext('2d'),r=stage.getBoundingClientRect(),factor=outW/r.width,total=baseScale*scale*factor;
-    const dw=naturalW*total,dh=naturalH*total;
-    ctx.fillStyle='#111';ctx.fillRect(0,0,outW,outH);
-    ctx.drawImage(img,(outW-dw)/2+x*factor,(outH-dh)/2+y*factor,dw,dh);
-    const blob=await new Promise(resolve=>c.toBlob(resolve,'image/jpeg',.92));
-    if(!blob){status.textContent='Speichern fehlgeschlagen.';return}
-    const filename=`${currentName}-rudelbar.jpg`;
-    const exportedFile=new File([blob],filename,{type:'image/jpeg'});
-    // iOS: Teilen-Dialog ist wesentlich zuverlässiger als erzwungener Download.
-    if(navigator.canShare && navigator.canShare({files:[exportedFile]})){
-      try{await navigator.share({files:[exportedFile],title:'Rudelbar Teamfoto'});status.textContent='✓ Bild erstellt. Über „Bild sichern“ in Fotos speichern.';return}catch(err){if(err?.name==='AbortError'){status.textContent='Speichern abgebrochen.';return}}
-    }
-    // Fallback: Bild in neuem Tab öffnen. Langes Drücken -> „In Fotos sichern“.
-    const url=URL.createObjectURL(blob);
-    const win=window.open(url,'_blank');
-    if(!win){location.href=url}else{status.textContent='✓ Bild geöffnet. Lange drücken und „In Fotos sichern“ wählen.'}
-    setTimeout(()=>URL.revokeObjectURL(url),60000);
-  }
-  save.addEventListener('click',exportImage);
-  window.addEventListener('resize',()=>{if(active)draw()});
+const member =
+document.getElementById('member');
+
+const file =
+document.getElementById('file');
+
+const reset =
+document.getElementById('reset');
+
+const save =
+document.getElementById('save');
+
+const status =
+document.getElementById('status');
+
+const key =
+document.getElementById('key');
+
+
+let naturalW = 0;
+let naturalH = 0;
+
+let baseScale = 1;
+
+/*
+WICHTIG:
+1.15 bedeutet 15 % Überstand.
+
+Dadurch lässt sich das Bild
+SOFORT links/rechts und
+oben/unten verschieben.
+*/
+let zoom = 1.15;
+
+let x = 0;
+let y = 0;
+
+let active = false;
+
+let currentIndex = -1;
+let currentName = 'teamfoto';
+
+let drag = null;
+let pinch = null;
+
+
+const clamp = (value,min,max) =>
+Math.max(
+  min,
+  Math.min(max,value)
+);
+
+
+
+function getBounds(){
+
+const rect =
+stage.getBoundingClientRect();
+
+const width =
+naturalW *
+baseScale *
+zoom;
+
+const height =
+naturalH *
+baseScale *
+zoom;
+
+return {
+
+mx:
+Math.max(
+  0,
+  (width - rect.width) / 2
+),
+
+my:
+Math.max(
+  0,
+  (height - rect.height) / 2
+)
+
+};
+
+}
+
+
+
+function draw(){
+
+if(!active){
+  return;
+}
+
+const bounds =
+getBounds();
+
+
+x =
+clamp(
+  x,
+  -bounds.mx,
+  bounds.mx
+);
+
+y =
+clamp(
+  y,
+  -bounds.my,
+  bounds.my
+);
+
+
+img.style.width =
+naturalW + 'px';
+
+img.style.height =
+naturalH + 'px';
+
+
+img.style.transform =
+
+`translate(-50%,-50%)
+ translate(${x}px,${y}px)
+ scale(${baseScale * zoom})`;
+
+}
+
+
+
+function fit(){
+
+if(
+  !naturalW ||
+  !naturalH
+){
+  return;
+}
+
+
+const rect =
+stage.getBoundingClientRect();
+
+
+baseScale =
+Math.max(
+
+rect.width /
+naturalW,
+
+rect.height /
+naturalH
+
+);
+
+
+/*
+15 % Reserve.
+
+Das ist der entscheidende Unterschied
+zur alten Version.
+*/
+zoom = 1.15;
+
+x = 0;
+y = 0;
+
+draw();
+
+}
+
+
+
+function loadImage(
+src,
+name,
+index
+){
+
+status.textContent = '';
+
+
+img.onload = () => {
+
+naturalW =
+img.naturalWidth;
+
+naturalH =
+img.naturalHeight;
+
+active = true;
+
+currentName =
+name || 'teamfoto';
+
+currentIndex =
+index;
+
+fit();
+
+reset.disabled = false;
+save.disabled = false;
+
+};
+
+
+img.onerror = () => {
+
+status.textContent =
+'Bild konnte nicht geladen werden.';
+
+};
+
+
+img.src = src;
+
+}
+
+
+
+/*
+TEAMDATEN LADEN
+*/
+
+fetch(
+'site.json?ts=' + Date.now(),
+{
+cache:'no-store'
+}
+)
+
+.then(response =>
+response.json()
+)
+
+.then(data => {
+
+const members =
+data.team?.members || [];
+
+
+members.forEach(
+(m,i) => {
+
+const option =
+document.createElement('option');
+
+option.value =
+m.image || '';
+
+option.textContent =
+m.name ||
+`Teammitglied ${i+1}`;
+
+option.dataset.name =
+m.name ||
+`team-${i+1}`;
+
+option.dataset.index =
+i;
+
+member.appendChild(
+option
+);
+
+});
+
+})
+
+.catch(() => {
+
+status.textContent =
+'Teamdaten konnten nicht geladen werden.';
+
+});
+
+
+
+/*
+TEAMMITGLIED AUSWÄHLEN
+*/
+
+member.addEventListener(
+'change',
+() => {
+
+const option =
+member.selectedOptions[0];
+
+
+if(
+!option ||
+option.dataset.index === undefined
+){
+return;
+}
+
+
+currentIndex =
+Number(
+option.dataset.index
+);
+
+currentName =
+option.dataset.name;
+
+
+if(option.value){
+
+loadImage(
+option.value,
+currentName,
+currentIndex
+);
+
+}
+
+}
+);
+
+
+
+/*
+NEUES FOTO
+*/
+
+file.addEventListener(
+'change',
+() => {
+
+const selected =
+file.files?.[0];
+
+
+if(!selected){
+return;
+}
+
+
+if(currentIndex < 0){
+
+status.textContent =
+'Bitte zuerst ein Teammitglied auswählen.';
+
+file.value = '';
+
+return;
+
+}
+
+
+const objectURL =
+URL.createObjectURL(
+selected
+);
+
+
+loadImage(
+objectURL,
+currentName,
+currentIndex
+);
+
+}
+);
+
+
+
+reset.addEventListener(
+'click',
+fit
+);
+
+
+
+/*
+==================================
+TOUCH
+==================================
+*/
+
+
+stage.addEventListener(
+'touchstart',
+event => {
+
+if(!active){
+return;
+}
+
+event.preventDefault();
+
+
+/*
+EIN FINGER
+*/
+
+if(
+event.touches.length === 1
+){
+
+const touch =
+event.touches[0];
+
+
+drag = {
+
+startX:
+touch.clientX,
+
+startY:
+touch.clientY,
+
+imageX:
+x,
+
+imageY:
+y
+
+};
+
+
+pinch = null;
+
+}
+
+
+/*
+ZWEI FINGER
+*/
+
+else if(
+event.touches.length >= 2
+){
+
+const a =
+event.touches[0];
+
+const b =
+event.touches[1];
+
+
+pinch = {
+
+distance:
+Math.hypot(
+a.clientX - b.clientX,
+a.clientY - b.clientY
+),
+
+zoom,
+
+x,
+
+y,
+
+centerX:
+(a.clientX + b.clientX) / 2,
+
+centerY:
+(a.clientY + b.clientY) / 2
+
+};
+
+
+drag = null;
+
+}
+
+},
+{
+passive:false
+}
+);
+
+
+
+stage.addEventListener(
+'touchmove',
+event => {
+
+if(!active){
+return;
+}
+
+event.preventDefault();
+
+
+/*
+VERSCHIEBEN
+*/
+
+if(
+event.touches.length === 1 &&
+drag
+){
+
+const touch =
+event.touches[0];
+
+
+x =
+drag.imageX +
+(
+touch.clientX -
+drag.startX
+);
+
+
+y =
+drag.imageY +
+(
+touch.clientY -
+drag.startY
+);
+
+
+draw();
+
+}
+
+
+/*
+ZOOM
+*/
+
+else if(
+event.touches.length >= 2
+){
+
+const a =
+event.touches[0];
+
+const b =
+event.touches[1];
+
+
+if(!pinch){
+
+pinch = {
+
+distance:
+Math.hypot(
+a.clientX - b.clientX,
+a.clientY - b.clientY
+),
+
+zoom,
+
+x,
+
+y,
+
+centerX:
+(a.clientX + b.clientX) / 2,
+
+centerY:
+(a.clientY + b.clientY) / 2
+
+};
+
+}
+
+
+const distance =
+Math.hypot(
+a.clientX - b.clientX,
+a.clientY - b.clientY
+);
+
+
+const centerX =
+(a.clientX + b.clientX) / 2;
+
+
+const centerY =
+(a.clientY + b.clientY) / 2;
+
+
+/*
+Minimum bleibt 1.15.
+
+Dadurch bleibt IMMER
+Bewegungsspielraum.
+*/
+
+zoom =
+clamp(
+
+pinch.zoom *
+(
+distance /
+Math.max(
+1,
+pinch.distance
+)
+),
+
+1.15,
+
+5
+
+);
+
+
+x =
+pinch.x +
+(
+centerX -
+pinch.centerX
+);
+
+
+y =
+pinch.y +
+(
+centerY -
+pinch.centerY
+);
+
+
+draw();
+
+}
+
+},
+{
+passive:false
+}
+);
+
+
+
+stage.addEventListener(
+'touchend',
+event => {
+
+if(
+event.touches.length === 1
+){
+
+const touch =
+event.touches[0];
+
+
+drag = {
+
+startX:
+touch.clientX,
+
+startY:
+touch.clientY,
+
+imageX:
+x,
+
+imageY:
+y
+
+};
+
+
+pinch = null;
+
+}
+
+else{
+
+drag = null;
+pinch = null;
+
+}
+
+},
+{
+passive:false
+}
+);
+
+
+
+stage.addEventListener(
+'touchcancel',
+() => {
+
+drag = null;
+pinch = null;
+
+},
+{
+passive:false
+}
+);
+
+
+
+/*
+==================================
+BILD ERZEUGEN
+==================================
+*/
+
+
+async function createImage(){
+
+const WIDTH = 1500;
+const HEIGHT = 1200;
+
+
+const canvas =
+document.createElement(
+'canvas'
+);
+
+
+canvas.width =
+WIDTH;
+
+canvas.height =
+HEIGHT;
+
+
+const context =
+canvas.getContext(
+'2d'
+);
+
+
+const rect =
+stage.getBoundingClientRect();
+
+
+const factor =
+WIDTH /
+rect.width;
+
+
+const totalScale =
+baseScale *
+zoom *
+factor;
+
+
+const drawWidth =
+naturalW *
+totalScale;
+
+
+const drawHeight =
+naturalH *
+totalScale;
+
+
+context.fillStyle =
+'#111';
+
+
+context.fillRect(
+0,
+0,
+WIDTH,
+HEIGHT
+);
+
+
+context.drawImage(
+
+img,
+
+(WIDTH - drawWidth) / 2
++
+x * factor,
+
+(HEIGHT - drawHeight) / 2
++
+y * factor,
+
+drawWidth,
+
+drawHeight
+
+);
+
+
+return canvas.toDataURL(
+'image/jpeg',
+0.90
+);
+
+}
+
+
+
+/*
+==================================
+DIREKT AUF WEBSITE SPEICHERN
+==================================
+*/
+
+
+save.addEventListener(
+'click',
+async () => {
+
+
+if(currentIndex < 0){
+
+status.textContent =
+'Bitte Teammitglied auswählen.';
+
+return;
+
+}
+
+
+if(!key.value){
+
+status.textContent =
+'Admin-Schlüssel eingeben.';
+
+return;
+
+}
+
+
+save.disabled = true;
+
+
+status.textContent =
+'Speichere direkt auf der Website …';
+
+
+try{
+
+
+const imageBase64 =
+await createImage();
+
+
+const response =
+await fetch(
+
+API + '/upload',
+
+{
+
+method:'POST',
+
+headers:{
+
+'Content-Type':
+'application/json',
+
+'X-Rudelbar-Key':
+key.value
+
+},
+
+body:
+JSON.stringify({
+
+memberIndex:
+currentIndex,
+
+memberName:
+currentName,
+
+imageBase64:
+imageBase64
+
+})
+
+}
+
+);
+
+
+const result =
+await response
+.json()
+.catch(
+() => ({})
+);
+
+
+if(!response.ok){
+
+throw new Error(
+
+result.error ||
+('HTTP ' + response.status)
+
+);
+
+}
+
+
+status.textContent =
+'✓ Gespeichert. Die Website wird jetzt aktualisiert.';
+
+
+}
+
+catch(error){
+
+console.error(error);
+
+
+status.textContent =
+'Fehler: ' +
+error.message;
+
+}
+
+
+finally{
+
+save.disabled = false;
+
+}
+
+}
+);
+
+
+
+window.addEventListener(
+'resize',
+() => {
+
+if(active){
+draw();
+}
+
+}
+);
+
+
 })();
 </script>
-</body></html>
+
+</body>
+</html>
