@@ -89,30 +89,45 @@
         "name": "Martin",
         "role": "Inhaber",
         "description": "Der Kopf hinter der Rudelbar. Hat aus einer verrückten Idee ein gemeinsames Ziel gemacht und hält das Rudel auf Kurs.",
-        "image": "/images/img7217.jpeg"
+        "image": "/images/img7217.jpeg",
+        "imageX": 50,
+        "imageY": 50,
+        "imageZoom": 100
       },
       {
         "name": "Jan",
         "role": "Teammitglied & Stellvertreter",
         "description": "Der Zahlenkopf im Rudel. Kleines Finanzgenie mit einem verdammt guten Blick fürs Geld und trotzdem für jeden Spaß zu haben.",
-        "image": "/images/3f1c4c08-af9d-402b-9118-33e5ac0faef8.jpeg"
+        "image": "/images/3f1c4c08-af9d-402b-9118-33e5ac0faef8.jpeg",
+        "imageX": 50,
+        "imageY": 50,
+        "imageZoom": 100
       },
       {
         "name": "Jannik",
         "role": "Teammitglied & Medienbeauftragter",
         "description": "Unser Mann für Hardware und Social Media. Bringt die Technik zum Laufen, das Rudel ins Netz und packt an, bevor andere überhaupt merken, dass Arbeit da ist.",
-        "image": "/images/b24df112-329d-461e-880b-ab79b7fc2887.jpeg"
+        "image": "/images/b24df112-329d-461e-880b-ab79b7fc2887.jpeg",
+        "imageX": 50,
+        "imageY": 50,
+        "imageZoom": 100
       },
       {
         "name": "Paddy",
         "role": "Teammitglied & Eventbeauftragter",
         "description": "Unser Gourmet mit Spieltrieb. Kümmert sich um Genuss und liefert die Ideen für Spiele und Aktionen, bei denen Fremde miteinander lachen und am Ende vielleicht als Freunde nach Hause gehen.",
-        "image": "/images/44e26028-5eca-45c4-b20b-1b793b075ab2.jpeg"
+        "image": "/images/44e26028-5eca-45c4-b20b-1b793b075ab2.jpeg",
+        "imageX": 50,
+        "imageY": 50,
+        "imageZoom": 100
       },
       {
         "name": "Patryk",
         "role": "Teammitglied & Einsatzbeauftragter",
-        "description": "Unser Mann für den Einsatz. Packt an, wo Hilfe gebraucht wird, behält auch dann die Ruhe, wenn es hektisch wird, und sorgt mit dafür, dass aus unseren Ideen am Ende echte Rudelbar-Momente werden."
+        "description": "Unser Mann für den Einsatz. Packt an, wo Hilfe gebraucht wird, behält auch dann die Ruhe, wenn es hektisch wird, und sorgt mit dafür, dass aus unseren Ideen am Ende echte Rudelbar-Momente werden.",
+        "imageX": 50,
+        "imageY": 50,
+        "imageZoom": 100
       }
     ]
   },

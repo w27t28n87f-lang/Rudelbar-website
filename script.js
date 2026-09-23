@@ -99,9 +99,16 @@ function renderTeam() {
 
     if (teamImage) {
       const img = document.createElement("img");
+      const x = Math.min(100, Math.max(0, Number(member.imageX ?? 50)));
+      const y = Math.min(100, Math.max(0, Number(member.imageY ?? 50)));
+      const zoom = Math.min(250, Math.max(100, Number(member.imageZoom ?? 100)));
+
       img.src = teamImage;
       img.alt = member.name ? `Foto von ${member.name}` : "Rudelbar Teammitglied";
       img.loading = "lazy";
+      img.style.setProperty("--team-x", `${x}%`);
+      img.style.setProperty("--team-y", `${y}%`);
+      img.style.setProperty("--team-zoom", String(zoom / 100));
       img.addEventListener("error", addTeamPlaceholder, { once: true });
       media.appendChild(img);
     } else {

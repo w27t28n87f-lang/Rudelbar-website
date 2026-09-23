@@ -573,7 +573,10 @@ textarea { resize: vertical; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: var(--team-x, 50%) var(--team-y, 50%);
+  transform: scale(var(--team-zoom, 1));
+  transform-origin: var(--team-x, 50%) var(--team-y, 50%);
+  display: block;
 }
 
 .team-placeholder {
